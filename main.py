@@ -7,10 +7,10 @@ load_dotenv()
 
 #establish potential llms and their model version. Would like to write documentation up on available models and which to select
 llm2 = ChatOpenAI(model = "gpt-4o-mini")
-llm = ChatAnthropic(model = "claud-3-5-sonnet-20241022")
+llm = ChatAnthropic(model = "claude-sonnet-4-20250514")
 
 response = llm.invoke("What is the meaning of life?")
-print(response)
+print(response.content)
 
 
 
