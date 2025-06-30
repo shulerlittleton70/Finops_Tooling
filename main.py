@@ -1,13 +1,14 @@
 from typing import List
 from dotenv import load_dotenv
 from pydantic import BaseModel
-from tools import search_tool
 from langchain_openai import ChatOpenAI
 from langchain_anthropic import ChatAnthropic
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
 from langchain.agents import create_tool_calling_agent
 from langchain.agents import AgentExecutor
+from tools import search_tool,wiki_tool
+
 
 
 load_dotenv() #loads variables such as api keys from the .env text file.
@@ -18,7 +19,6 @@ class ResearchResponse(BaseModel):
     sources: List[str]
     tools_used: list[str]
 
-#establish potential llms and their model version.
 
 #llm = ChatOpenAI(model = "gpt-4o-mini")
 llm = ChatAnthropic(model = "claude-sonnet-4-20250514")
@@ -41,7 +41,7 @@ prompt = ChatPromptTemplate.from_messages(
     ]
 ).partial(format_instructions=parser.get_format_instructions())
 
-tools =[search_tool]
+tools = [search_tool, wiki_tool]
 agent = create_tool_calling_agent(
     llm=llm,
     prompt=prompt,
