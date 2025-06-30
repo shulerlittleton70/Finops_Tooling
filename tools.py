@@ -15,6 +15,12 @@ def save_to_txt(data:str, filename: str ="research_output.txt"):
 
     return f"Data  successfully saved to {filename}"
 
+save_tool = Tool(
+    name="save_text_tool",
+    func=save_to_txt,
+    description="Saves response to text file."
+)
+
 search = SerpAPIWrapper()
 search_tool = Tool(
     name="Search",
