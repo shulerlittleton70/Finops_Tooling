@@ -11,3 +11,5 @@ openai
 requests
 os
 boto3
+pandas
+time
