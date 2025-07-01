@@ -9,3 +9,5 @@ duckduckgo-search
 google-search-results
 openai
 requests
+os
+boto3
