@@ -1,8 +1,8 @@
-from .save_tools import *
-from .search_tools import *
-from .s3_utils import *
-from .athena_utils import *
-from gainsight_utils import *
+from tools.saving.save_tools import *
+from tools.searching.search_tools import *
+from tools.connections.s3_utils import *
+from tools.connections.athena_utils import *
+from tools.connections.gainsight_utils import *
 
 __all__ = [
     save_tool,
