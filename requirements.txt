@@ -7,3 +7,5 @@ python-dotenv
 pydantic
 duckduckgo-search
 google-search-results
+openai
+requests
