@@ -1,0 +1,12 @@
+
+---
+
+### 📄 `requirements.txt`
+
+```text
+pandas
+pyathena
+boto3
+jinja2
+pyyaml
+openai  # Or pedantic-ai if using that

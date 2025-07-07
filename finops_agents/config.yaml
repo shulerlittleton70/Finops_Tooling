@@ -1,0 +1,6 @@
+# finops_agents/config.yaml
+
+aws_region: us-east-1
+athena_database: cur_db
+cur_table_name: aws_cur_table
+output_s3_location: s3://your-athena-query-results/
