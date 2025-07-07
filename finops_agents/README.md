@@ -1,14 +1,16 @@
-# finops_agents
+# FinOps Agents
 
-This module enables FinOps practitioners to interact with AWS Cost and Usage Reports (CUR) via Athena using natural language.
+A modular LLM assistant to explore AWS Cost and Usage Reports (CUR) using natural language and Athena queries.
 
-## Features
+## 💡 Features
 
-- LLM-driven SQL generation for AWS CUR queries
-- Athena connection and execution utilities
-- CUR field lookup for enhanced explainability
+- Natural language → SQL → CUR answers
+- Athena integration via PyAthena
+- CUR metadata for context/explanation
+- Modular structure for expansion (S3, tags, fields)
 
-## Setup
+## 🚀 Usage
 
 ```bash
 pip install -r requirements.txt
+python app.py

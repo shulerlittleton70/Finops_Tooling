@@ -1,16 +1,8 @@
-boto3
-duckduckgo-search
-google-search-results
-jinja2
-langchain
-langchain-anthropic
-langchain-community
-langchain-openai
-openai
-pandantic
+
+###`requirements.txt`
 pandas
-pedantic-ai
 pyathena
+boto3
+jinja2
 pyyaml
-python-dotenv
-wikipedia
+openai  # Replace with pedantic-ai if applicable
