@@ -1,17 +1,31 @@
-# finops_agents/agents/llm_agent.py
+import os
+import openai
+from finops_agents.prompt_templates import SQL_PROMPT_TEMPLATE, RESULT_INTERPRET_TEMPLATE
+import pandas as pd
+from dotenv import load_dotenv
 
-from finops_agents.prompt_templates import SQL_PROMPT_TEMPLATE
+load_dotenv()
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# TODO: Replace with actual call to Pedantic AI, OpenAI, or other LLM
-def get_sql_from_prompt(prompt: str) -> str:
-    """
-    Converts a natural language FinOps prompt into an Athena SQL query using LLM.
-    """
-    full_prompt = SQL_PROMPT_TEMPLATE.format(question=prompt)
-    print("Sending prompt to LLM...")
-
-    # Simulated LLM output (replace with real API)
-    return (
-        "SELECT product_code, SUM(blended_cost) AS total_cost "
-        "FROM aws_cur_table GROUP BY product_code;"
+def call_llm(prompt: str) -> str:
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        messages=[
+            {"role": "system", "content": "You are a FinOps and AWS CUR expert."},
+            {"role": "user", "content": prompt}
+        ],
+        temperature=0.4
     )
+    return response['choices'][0]['message']['content'].strip()
+
+def generate_sql_from_prompt(prompt: str) -> str:
+    full_prompt = SQL_PROMPT_TEMPLATE.format(question=prompt)
+    return call_llm(full_prompt)
+
+def interpret_results(question: str, dataframe: pd.DataFrame) -> str:
+    preview = dataframe.head(10).to_markdown(index=False)
+    full_prompt = RESULT_INTERPRET_TEMPLATE.format(
+        question=question,
+        dataframe_preview=preview
+    )
+    return call_llm(full_prompt)

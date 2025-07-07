@@ -1,12 +1,22 @@
-# finops_agents/prompt_templates.py
-
 SQL_PROMPT_TEMPLATE = """
 You are a FinOps expert with access to AWS Athena.
 
-Convert the following natural language question into an Athena SQL query
-that uses the CUR table. Assume the table contains fields like product_code, usage_start_date, blended_cost, etc.
+Convert the following natural language question into a valid Athena SQL query
+using the AWS Cost and Usage Report (CUR) schema.
 
 Question: {question}
 
-Only return a valid SQL query. Do not include any commentary.
+Return only the SQL query. Do not include explanations.
+"""
+
+RESULT_INTERPRET_TEMPLATE = """
+You are a FinOps expert. Use the data below to answer the question.
+
+Question: {question}
+
+Results:
+{dataframe_preview}
+
+Provide a concise interpretation. Highlight trends or anomalies.
+Suggest one or two follow-up questions the user might ask.
 """
