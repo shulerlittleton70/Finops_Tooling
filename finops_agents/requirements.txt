@@ -5,4 +5,6 @@ pyathena
 boto3
 jinja2
 pyyaml
-openai  # Replace with pedantic-ai if applicable
+openai
+python-dotenv
+# Replace with pedantic-ai if applicable
