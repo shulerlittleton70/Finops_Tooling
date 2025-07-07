@@ -1,5 +1,4 @@
 # finops_agents/app.py
-
 from finops_agents.llm_agent import get_sql_from_prompt
 from finops_agents.athena_utils import run_query
 

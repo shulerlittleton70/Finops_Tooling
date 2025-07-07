@@ -1,12 +1,16 @@
-
----
-
-### 📄 `requirements.txt`
-
-```text
-pandas
-pyathena
 boto3
+duckduckgo-search
+google-search-results
 jinja2
+langchain
+langchain-anthropic
+langchain-community
+langchain-openai
+openai
+pandantic
+pandas
+pedantic-ai
+pyathena
 pyyaml
-openai  # Or pedantic-ai if using that
+python-dotenv
+wikipedia
