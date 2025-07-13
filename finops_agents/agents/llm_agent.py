@@ -1,42 +1,40 @@
+# finops_agents/agents/llm_agent.py
+
 import os
-import openai
-import pandas as pd
+from openai import OpenAI
 from dotenv import load_dotenv
-from finops_agents.prompt_templates import SQL_PROMPT_TEMPLATE, RESULT_INTERPRET_TEMPLATE
-from finops_agents.utils.cur_utils import get_cur_schema
-from finops_agents.cur_dictionary import get_field_dictionary_text
+import pandas as pd
 
+# Load environment variables from .env file
 load_dotenv()
-openai.api_key = os.getenv("OPENAI_API_KEY")
 
-def call_llm(prompt: str) -> str:
-    response = openai.ChatCompletion.create(
-        model="gpt-4",
-        messages=[
-            {"role": "system", "content": "You are a FinOps and AWS CUR expert."},
-            {"role": "user", "content": prompt}
-        ],
-        temperature=0.4
-    )
-    return response['choices'][0]['message']['content'].strip()
+# Initialize OpenAI client
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def generate_sql_from_prompt(prompt: str) -> str:
-    schema_dict = get_cur_schema()
-    schema_str = "\n".join(f"- `{k}`: {v}" for k, v in schema_dict.items())
-    field_docs = get_field_dictionary_text()
-
-    full_prompt = (
-        f"### CUR Table Schema:\n{schema_str}\n\n"
-        f"### CUR Field Definitions:\n{field_docs}\n\n"
-        + SQL_PROMPT_TEMPLATE.format(question=prompt)
+    """
+    Generates an SQL query from a natural language prompt using OpenAI LLM.
+    """
+    print(f"💡 Using LLM to generate SQL from prompt: {prompt}")
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo-1106",
+        messages=[
+            {"role": "system", "content": "You are a cloud cost optimization assistant. Generate AWS CUR-compatible SQL from user questions."},
+            {"role": "user", "content": prompt}
+        ],
+        temperature=0.2
     )
-    return call_llm(full_prompt)
+    sql = response.choices[0].message.content.strip()
+    print("🔎 Generated SQL:\n", sql)
+    return sql
 
-def interpret_results(question: str, dataframe: pd.DataFrame) -> str:
-    preview = dataframe.head(10).to_markdown(index=False)
-    field_docs = get_field_dictionary_text()
-    full_prompt = RESULT_INTERPRET_TEMPLATE.format(
-        question=question,
-        dataframe_preview=preview
-    ) + f"\n\n### CUR Field Definitions:\n{field_docs}"
-    return call_llm(full_prompt)
+def interpret_results(dataframe: pd.DataFrame, user_prompt: str) -> str:
+    """
+    Interpret the returned DataFrame with context to the original question.
+    """
+    if dataframe.empty:
+        return "⚠️ No results returned."
+
+    interpretation = f"Here is a summary of the results for your question: \n**{user_prompt}**\n\n"
+    interpretation += dataframe.head(5).to_markdown(index=False)
+    return interpretation

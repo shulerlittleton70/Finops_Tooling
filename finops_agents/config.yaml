@@ -3,4 +3,4 @@
 aws_region: us-east-1
 athena_database: aws-cur
 cur_table_name: finopscost
-output_s3_location: s3://examplebucketfinops/
+output_s3_location: s3://examplebucketfinops/athena-results/
